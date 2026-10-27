@@ -1,27 +1,54 @@
-[tool.poetry]
+[project]
 name = "qinterp"
 version = "1.8.1"
 description = "Python tools for interpolating 3D or 4D fields"
-authors = ["Paul Walker", "Carmelo Mordini"]
-license = "GNU General Public License v3.0"
+authors = [
+    { name = "Paul Walker" },
+    { name = "Carmelo Mordini" },
+]
+requires-python = ">=3.9,<3.12"
 readme = "README.md"
-packages = [
-    { include = "qinterp", from = "src" }
+license = "GNU General Public License v3.0"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = ["numpy>=1.21.1,<2"]
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0,<8",
+    "pytest-cov>=3.0.0,<4",
+    "Sphinx>=4.4.0,<5",
+    "myst-nb>=0.13.2,<0.14",
+    "sphinx-autoapi>=1.8.4,<2",
+    "sphinx-rtd-theme>=1.0.0,<2",
+    "scipy>=1.9.1,<2",
+    "ARBInterp",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.7,<3.12"
-numpy = "^1.21.1"
+[tool.uv]
+default-groups = "all"
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.0.0"
-pytest-cov = "^3.0.0"
-Sphinx = "^4.4.0"
-myst-nb = "^0.13.2"
-sphinx-autoapi = "^1.8.4"
-sphinx-rtd-theme = "^1.0.0"
-scipy = "^1.9.1"
-ARBInterp = {git = "https://github.com/DurhamDecLab/ARBInterp.git"}
+[tool.uv.sources]
+ARBInterp = { git = "https://github.com/DurhamDecLab/ARBInterp.git" }
+
+[tool.hatch.build.targets.sdist]
+include = ["src/qinterp"]
+
+[tool.hatch.build.targets.wheel]
+include = ["src/qinterp"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src/qinterp" = "qinterp"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.semantic_release]
 version_variable = "pyproject.toml:version" # version location
@@ -33,7 +60,3 @@ upload_to_release = true                    # auto-create GitHub release
 upload_to_pypi = false                      # don't auto-upload to PyPI
 remove_dist = false                         # don't remove dists
 patch_without_tag = true                    # patch release by default
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
