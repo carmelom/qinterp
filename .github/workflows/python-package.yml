@@ -1,0 +1,46 @@
+# Install the project with uv, lint, run tests and build the docs on every supported Python version
+# For more information see: https://docs.astral.sh/uv/guides/integration/github/
+
+name: Python package
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install uv and set up Python ${{ matrix.python-version }}
+      uses: astral-sh/setup-uv@v6
+      with:
+        python-version: ${{ matrix.python-version }}
+        enable-cache: true
+    - name: Install
+      run: uv sync --locked
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        uvx flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude .venv
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        uvx flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude .venv
+
+    - name: Test with pytest
+      run: uv run pytest tests/ --cov=qinterp --cov-report=xml
+
+    - name: Use Codecov to track coverage
+      uses: codecov/codecov-action@v5
+      with:
+        files: ./coverage.xml   # coverage report
+
+    - name: Build documentation
+      run: uv run make html --directory docs/
