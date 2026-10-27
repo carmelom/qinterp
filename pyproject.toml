@@ -6,28 +6,26 @@ authors = [
     { name = "Paul Walker" },
     { name = "Carmelo Mordini" },
 ]
-requires-python = ">=3.9,<3.12"
+requires-python = ">=3.10"
 readme = "README.md"
-license = "GNU General Public License v3.0"
+license = "GPL-3.0-only"
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
-dependencies = ["numpy>=1.21.1,<2"]
+dependencies = ["numpy>=1.21.1"]
 
 [dependency-groups]
 dev = [
-    "pytest>=7.0.0,<8",
-    "pytest-cov>=3.0.0,<4",
-    "Sphinx>=4.4.0,<5",
-    "myst-nb>=0.13.2,<0.14",
-    "sphinx-autoapi>=1.8.4,<2",
-    "sphinx-rtd-theme>=1.0.0,<2",
-    "scipy>=1.9.1,<2",
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "Sphinx>=4.4.0",
+    "myst-nb>=0.13.2",
+    "sphinx-autoapi>=1.8.4",
+    "sphinx-rtd-theme>=1.0.0",
+    "scipy>=1.9.1",
     "ARBInterp",
 ]
 
@@ -54,7 +52,7 @@ build-backend = "hatchling.build"
 version_variable = "pyproject.toml:version" # version location
 branch = "main"                             # branch to make releases of
 changelog_file = "CHANGELOG.md"             # changelog file
-build_command = "poetry build"              # build dists
+build_command = "uv build"              # build dists
 dist_path = "dist/"                         # where to put dists
 upload_to_release = true                    # auto-create GitHub release
 upload_to_pypi = false                      # don't auto-upload to PyPI
